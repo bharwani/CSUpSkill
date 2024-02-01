@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
+    <title>LaunchDarkly tutorial</title>
+    <script src="https://unpkg.com/launchdarkly-js-client-sdk@3"></script>
+</head>
+
+<body>
+    <script>
+        function main() {
+            // Set clientSideID to your LaunchDarkly client-side ID
+            const clientSideID = '65b7f5d2c99dfa109148cb61';
+
+            // Set flagKey to the feature flag key you want to evaluate
+            const flagKey = 'my-boolean-flag';
+
+            // Set up the context properties. This context should appear on your
+            // LaunchDarkly contexts dashboard soon after you run the demo.
+            const context = {
+                kind: 'user',
+                key: '2345',
+                name: 'Sandy'
+            };
+
+            var div = document.createElement('div');
+            document.body.appendChild(div);
+            div.appendChild(document.createTextNode('Initializing...'));
+
+            if (clientSideID === '') {
+                div.replaceChild(document.createTextNode('Please edit index.html to set clientSideID to your LaunchDarkly client-side ID first'), div.firstChild);
+                return;
+            }
+
+            const ldclient = LDClient.initialize(clientSideID, context);
+
+            function render() {
+                const flagValue = ldclient.variation(flagKey, false);
+                const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this context';
+                div.replaceChild(document.createTextNode(label), div.firstChild);
+            }
+
+            ldclient.on('initialized', () => {
+                div.appendChild(document.createTextNode('SDK successfully initialized!'), div.firstChild);
+            });
+            ldclient.on('failed', () => {
+                div.appendChild(document.createTextNode('SDK failed to initialize'), div.firstChild);
+            });
+            ldclient.on('ready', render);
+            ldclient.on('change', render);
+
+
+            // Here we ensure that the SDK shuts down cleanly and has a chance
+            // to deliver analytics events to LaunchDarkly before the program
+            // exits. If analytics events are not delivered, the context properties
+            // and flag usage statistics will not appear on your dashboard.
+            // In a normal long-running application, the SDK would continue
+            // running and events would be delivered automatically in the background.
+            //ldclient.close();
+        }
+        main();
+    </script>
+</body>
+
+</html>
