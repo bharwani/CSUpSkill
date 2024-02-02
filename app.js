@@ -52,7 +52,7 @@ ldClient.on('initialized', () => {
 console.log('Set up Ready listener');
 ldClient.on('ready', () => {
   // Existing Feature: show/hide login dropdown 
-  const loginFlagKey = 'loginControl';
+  const loginFlagKey = 'login-control';
   const loginFlagValue = ldClient.variation(loginFlagKey, false);
   if (loginFlagKey) { // check if flag is true
     console.log('Login Flag Value: ' + loginFlagKey);

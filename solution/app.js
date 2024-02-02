@@ -57,7 +57,7 @@ ldClient.on('ready', () => {
   }
 
   // Feature 2: show/hide login dropdown 
-  const flagKey2 = 'loginControl';
+  const flagKey2 = 'login-control';
   const flagValue2 = ldClient.variation(flagKey2, false);
   if (flagValue2) { // check if flag is true
     console.log('Login Flag Value: ' + flagValue2);
@@ -67,7 +67,7 @@ ldClient.on('ready', () => {
   }
 
   // Feature 3: show/hide Meta login option; Prereq with feature 2 (flag=loginControl)
-  const flagKey3 = 'metaLoginControl';
+  const flagKey3 = 'meta-login-control';
   const flagValue3 = ldClient.variation(flagKey3, false);
   if (flagValue3) { // check if flag is true
     console.log('Meta Login Flag Value: ' + flagValue3);
